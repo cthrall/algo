@@ -1,0 +1,39 @@
+* OSI Model
+** Layer 1: Physical Layer - pin layout, voltage, radio frequency, etc.
+** Layer 2: Data Link Layer - node to node, data correction, IEEE 802, MAC/LLC
+** Layer 3: Network Layer - IP, transferring variable length data sequences (datagrams), routing, dividing into multiple messages
+** Layer 4: Transport Layer - UDP, TCP
+** Layer 5: Session Layer
+** Layer 6: Presentation character encoding, data compression, encryption/decryption
+** Layer 7: High-level APIs, including file access
+* DNS Query
+** Domain Name System, used for looking up an IP address for a hostname.
+** User Datagram Protocol (UDP) request
+*** No guarantee of delivery like there is with Transmission Control Protocol (TCP)
+*** Laptop opens a socket and sends a DNS request to my wifi router asking for the IP for www.google.com
+*** I see requests for both IPv4 and IPv6 IP addresses
+**** IPv4 and IPv6 are two versions of the Internet Protocol
+**** IPv4 address is 32-bits, giving us 2^32 or roughly 4.29 billion addresses
+**** Last IPv4 addresses have been allocated, time to migrate to IPv6
+**** IPv6 address is 128-bits
+*** Got two responses back
+**** IPv4 response with eight different IPv4 addresses
+***** Different DNS client implementations use different methods to pick which address to use: the first in the list, random pick, etc.
+**** IPv6 response with a single IPv6 address
+** My Mac picked one of the IPv4 addresses, 63.117.14.187
+* TCP Connection Establishment
+** SYN from ephemeral port (over 1024) on local IP, 192.168.100.2 to port 80 on 63.117.14.187
+** Port 80 is used for HTTP, which is the protocol used for web requests
+** Remote server acknowledges the SYN with a SYN ACK
+** My laptop acknowledges with an ACK
+** Remote server acknowledges my ACK with an ACK
+* HTTP Request
+** My laptop sends a GET request for "GET / HTTP/1.1".
+** Remote server sends an ACK for the request, then two packets worth of data.
+** My laptop sends an ACK for the data, then two packets worth of data.
+** Eventually, the remote server completes the HTTP request by sending the response, "HTTP/1.1 200 OK"
+* TCP Connection Teardown
+** My computer sends ACK to acknowledge the HTTP response data
+** My computer sends FIN, ACK to the remote server to begin closing the connection
+** The remote server sends FIN, ACK to my laptop to acknowledge closing the connection
+** My laptop sends ACK to the remote server to acknowledge
