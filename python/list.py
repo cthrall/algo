@@ -21,6 +21,30 @@ class LinkedList(object):
         else:
             self._insert(node.node, value)
 
+    def __getitem__(self, index):
+        return self._getitem(self.root, index, 0)
+
+    def _getitem(self, node, index, i):
+        if index == i:
+            return node.value
+        else:
+            if node == None:
+                raise IndexError
+            else:
+                return self._getitem(node.node, index, i + 1)
+
+    def delete(self, index):
+        if index == 0:
+            self.root = self.root.node
+        else:
+            return self._delete(self.root, index, 0, None)
+
+    def _delete(self, node, index, i, prev):
+        if index == i:
+            prev.node = node.node
+        else:
+            self._delete(node.node, index, i + 1, node)
+    
     def __len__(self):
         if self.root == None:
             return 0
@@ -52,6 +76,15 @@ def main(args):
         list.insert(i)
 
     print(len(list))
+    print(list.walk())
+    
+    print(list[0])
+    print(list[1])
+
+    list.delete(0)
+    print(list.walk())
+
+    list.delete(1)
     print(list.walk())
 
 if __name__ == '__main__':
