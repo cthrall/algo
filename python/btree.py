@@ -31,18 +31,18 @@ class BinaryTree(object):
                 else:
                     self._insert(node.right, value)
         
-    def search(self, value):
-        return self._search(self.root, value)
+    def __getitem__(self, value):
+        return self._getitem(self.root, value)
 
-    def _search(self, node, value):
+    def _getitem(self, node, value):
         if node == None or node.value == value:
             return node
         else:
             if value < node.value:
-                return self._search(node.left, value)
+                return self._getitem(node.left, value)
             else:
-                return self._search(node.right, value)
-
+                return self._getitem(node.right, value)
+        
     def depth(self):
         return self._depth(self.root, 1)
 
@@ -80,6 +80,9 @@ def main(args):
 
     print(tree.depth())
     print(tree.walk())
+
+    node = tree[4]
+    print(node)
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
